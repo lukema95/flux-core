@@ -1,0 +1,11 @@
+out/
+cache/
+broadcast/
+lcov.info
+.env
+.venv/
+.DS_Store
+
+# Deployment output
+deployments/*.json
+!deployments/.gitkeep

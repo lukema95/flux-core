@@ -1,0 +1,110 @@
+name: contracts
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  FOUNDRY_PROFILE: default
+
+jobs:
+  contracts:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Checkout dependencies
+        run: git submodule update --init lib/forge-std lib/openzeppelin-contracts
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.8.5
+
+      - name: Cache solc
+        uses: actions/cache@v4
+        with:
+          path: ~/.svm
+          key: svm-${{ runner.os }}-${{ hashFiles('foundry.toml') }}
+          restore-keys: |
+            svm-${{ runner.os }}-
+
+      - name: Check documentation languages
+        run: bash scripts/check-docs.sh
+
+      - name: Check formatting
+        run: forge fmt --check
+
+      - name: Build with sizes
+        run: |
+          forge --version
+          forge build --sizes
+
+      - name: Run tests
+        run: forge test -vvv
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Checkout dependencies
+        run: git submodule update --init lib/forge-std lib/openzeppelin-contracts
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.8.5
+
+      - name: Cache solc
+        uses: actions/cache@v4
+        with:
+          path: ~/.svm
+          key: svm-${{ runner.os }}-${{ hashFiles('foundry.toml') }}
+          restore-keys: |
+            svm-${{ runner.os }}-
+
+      - name: Check coverage threshold
+        run: bash scripts/check-coverage.sh
+
+  slither:
+    name: Static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      - name: Checkout dependencies
+        run: git submodule update --init lib/forge-std lib/openzeppelin-contracts
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.8.5
+
+      - name: Cache solc
+        uses: actions/cache@v4
+        with:
+          path: ~/.svm
+          key: svm-${{ runner.os }}-${{ hashFiles('foundry.toml') }}
+          restore-keys: |
+            svm-${{ runner.os }}-
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Slither
+        run: pip install slither-analyzer
+
+      - name: Run Slither
+        run: slither . --config-file slither.config.json --fail-medium

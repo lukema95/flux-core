@@ -1,0 +1,52 @@
+name: Bug report
+description: Report a reproducible bug in the contracts, tests or scripts
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Do **not** use this form for security issues —
+        follow [SECURITY.md](../../SECURITY.md) instead.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include a Foundry test or a minimal script when possible.
+      placeholder: |
+        1. git checkout <commit>
+        2. forge test --match-test ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and traces
+      description: Paste `forge test -vvv` output, revert data or transaction traces.
+      render: shell
+  - type: input
+    id: version
+    attributes:
+      label: Commit / version
+      placeholder: e.g. v1.0.0 or 6e85e1b
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: e.g. macOS 15, foundry 1.8.5, solc 0.8.26
+    validations:
+      required: true

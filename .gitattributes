@@ -1,0 +1,8 @@
+* text=auto eol=lf
+
+*.sol linguist-language=Solidity
+*.yml linguist-language=YAML
+
+docs/*.md linguist-documentation
+LICENSE linguist-documentation
+CHANGELOG.md linguist-documentation

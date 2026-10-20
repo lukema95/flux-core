@@ -1,0 +1,35 @@
+{
+  "name": "flux-core",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Flux Protocol core smart contracts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukema95/flux-core.git"
+  },
+  "keywords": [
+    "nft",
+    "erc6551",
+    "solidity",
+    "foundry",
+    "defi"
+  ],
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "fmt": "forge fmt",
+    "fmt:check": "forge fmt --check",
+    "coverage": "bash scripts/check-coverage.sh",
+    "slither": "bash scripts/run-slither.sh",
+    "check:docs": "bash scripts/check-docs.sh",
+    "setup": "git submodule update --init lib/forge-std lib/openzeppelin-contracts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bugs": {
+    "url": "https://github.com/lukema95/flux-core/issues"
+  },
+  "homepage": "https://github.com/lukema95/flux-core#readme"
+}
